@@ -1,20 +1,26 @@
-import { Button } from "@/components/ui/button";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import FoodDetail from "@/pages/FoodDetail.tsx";
+import FoodList from "@/components/FoodList/FoodList.tsx";
+import ButtonGroup from "@/components/ButtonGroup/ButtonGroup.tsx";
 
 function App() {
   return (
-    <div className="flex flex-col justify-center items-center gap-5 min-h-screen mx-auto my-10">
-      <div className="flex gap-3">
-        <Button className="rounded-xl bg-black text-white hover:bg-gray-900">
-          Add
-        </Button>
-        <Button className="rounded-xl bg-black text-white hover:bg-gray-900">
-          Remove
-        </Button>
-        <Button className="rounded-xl bg-black text-white hover:bg-gray-900">
-          Checkout
-        </Button>
+    <BrowserRouter>
+      <div className="flex flex-col justify-center items-center gap-5 min-h-full mx-auto my-10">
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <>
+                <ButtonGroup />
+                <FoodList />
+              </>
+            }
+          />
+          <Route path="/food/:id" element={<FoodDetail />} />
+        </Routes>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
