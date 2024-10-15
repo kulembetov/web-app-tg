@@ -1,32 +1,32 @@
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { fetchMealById } from "@/api/foodApi.ts";
-import { Meal } from "@/api/foodApi";
+import { useSelector } from "react-redux";
+import { clearFoodDetail, loadMealById } from "@/store/foodSlice"; // Redux action
+import { RootState } from "@/store"; // Root state type
 import { Button } from "@/components/ui/button.tsx";
 import Loader from "@/components/Loader/Loader";
+import { useAppDispatch } from "@/store/hooks";
 
 const FoodDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const [food, setFood] = useState<Meal | null>(null);
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const {
+    foodDetail: food,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.foodList);
 
   useEffect(() => {
-    const loadMeal = async () => {
-      try {
-        const meal = await fetchMealById(id!);
-        setFood(meal);
-      } catch (e) {
-        console.error(e);
-        setError("Failed to load meal details.");
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (id) {
+      dispatch(loadMealById(id));
+    }
 
-    loadMeal();
-  }, [id]);
+    return () => {
+      dispatch(clearFoodDetail());
+    };
+  }, [dispatch, id]);
 
   const handleGetBack = () => {
     navigate(-1);
