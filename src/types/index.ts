@@ -4,7 +4,10 @@ export interface FoodPosition {
 }
 
 export interface Food {
-  idMeal: number;
-  strMeal: string;
-  strInstructions: string;
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image_url: string;
+  created_at: string;
 }

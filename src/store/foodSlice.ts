@@ -1,29 +1,23 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { fetchMeals, fetchMealById } from '@/api/foodApi.ts';
-import { Meal } from '@/api/foodApi';
-import { Food } from '@/types';
+import { fetchMeals, fetchMealById } from '@/services/mealService';
+import { Food, FoodPosition } from '@/types';
 
-export const loadMeals = createAsyncThunk('foodList/loadMeals', async () => {
+export const loadMeals = createAsyncThunk<Food[]>('foodList/loadMeals', async () => {
   const meals = await fetchMeals();
   return meals;
 });
 
-export const loadMealById = createAsyncThunk(
+export const loadMealById = createAsyncThunk<Food | null, number>(
   'foodDetail/loadMealById',
-  async (id: string) => {
+  async (id) => {
     const meal = await fetchMealById(id);
     return meal;
   }
 );
 
-interface FoodPosition {
-  idMeal: number;
-  position: number;
-}
-
 interface FoodState {
-  foods: Meal[];
-  foodDetail: Meal | null;
+  foods: Food[];
+  foodDetail: Food | null;
   positions: FoodPosition[];
   loading: boolean;
   error: string | null;
@@ -66,7 +60,7 @@ const foodSlice = createSlice({
     },
     removeSelected(state) {
       state.foods = state.foods.filter(
-        (food) => !state.selectedCards.includes(food.idMeal)
+        (food) => !state.selectedCards.includes(food.id)
       );
       state.selectedCards = [];
     },
@@ -76,10 +70,10 @@ const foodSlice = createSlice({
     ) {
       const { draggedId, droppedId } = action.payload;
       const draggedIndex = state.foods.findIndex(
-        (food) => food.idMeal === draggedId
+        (food) => food.id === draggedId
       );
       const droppedIndex = state.foods.findIndex(
-        (food) => food.idMeal === droppedId
+        (food) => food.id === droppedId
       );
 
       if (draggedIndex > -1 && droppedIndex > -1) {
@@ -87,7 +81,7 @@ const foodSlice = createSlice({
         state.foods.splice(droppedIndex, 0, draggedFood);
 
         state.positions = state.foods.map((food, index) => ({
-          idMeal: food.idMeal,
+          idMeal: food.id,
           position: index,
         }));
       }
@@ -108,12 +102,12 @@ const foodSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loadMeals.fulfilled, (state, action) => {
+      .addCase(loadMeals.fulfilled, (state, action: PayloadAction<Food[]>) => {
         state.loading = false;
         state.foods = action.payload;
 
         state.positions = action.payload.map((food: Food, index: number) => ({
-          idMeal: food.idMeal,
+          idMeal: food.id,
           position: index,
         }));
       })
@@ -125,7 +119,7 @@ const foodSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(loadMealById.fulfilled, (state, action: PayloadAction<Meal>) => {
+      .addCase(loadMealById.fulfilled, (state, action: PayloadAction<Food | null>) => {
         state.loading = false;
         state.foodDetail = action.payload;
       })

@@ -56,10 +56,8 @@ const FoodList = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
 
   const sortedFoods = [...foods].sort((a, b) => {
-    const posA =
-      positions.find((pos) => pos.idMeal === a.idMeal)?.position ?? 0;
-    const posB =
-      positions.find((pos) => pos.idMeal === b.idMeal)?.position ?? 0;
+    const posA = positions.find((pos) => pos.idMeal === a.id)?.position ?? 0;
+    const posB = positions.find((pos) => pos.idMeal === b.id)?.position ?? 0;
     return posA - posB;
   });
 
@@ -106,7 +104,7 @@ const FoodList = () => {
       ) : (
         <>
           <div
-            className="sticky top-5 left-1/2 transform -translate-x-1/2 bg-white shadow-lg p-4 flex justify-center items-center gap-3 border-4 border-black-500 w-fit z-10 rounded-3xl transition-opacity duration-300"
+            className="sticky w-fit mx-auto top-5 bg-white shadow-lg p-4 flex justify-center items-center gap-3 border-4 border-black-500 z-10 rounded-3xl transition-opacity duration-300"
             style={{ opacity: scrollOpacity }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -124,18 +122,18 @@ const FoodList = () => {
             </Button>
           </div>
 
-          <div className="grid grid-cols-3 gap-5 my-20">
+          <div className="grid lg:grid-cols-3 sm:grid-cols-2 md:grid-cols-2 gap-5 sm:m-20 md:m-20 lg:my-20 lg:mx-0">
             {error ? (
               <div className="text-center text-red-600">{error}</div>
             ) : (
               currentFoods.map((food: Food) => (
                 <FoodCard
-                  key={food.idMeal}
-                  id={food.idMeal}
-                  name={food.strMeal}
-                  description={food.strInstructions.substring(0, 100) + "..."}
-                  price={`$9.99`}
-                  selected={selectedCards.includes(food.idMeal)}
+                  key={food.id}
+                  id={food.id}
+                  name={food.name}
+                  description={food.description.substring(0, 100) + "..."}
+                  price={`$${food.price}`}
+                  selected={selectedCards.includes(food.id)}
                   onSelect={handleSelectCard}
                   onDragStart={handleDragStart}
                   onDrop={handleDrop}
@@ -145,14 +143,14 @@ const FoodList = () => {
           </div>
 
           <div
-            className="sticky bottom-5 bg-background shadow-xl border-4 border-black-500 bg-opacity-90 flex justify-center items-center gap-2 py-4 rounded-3xl transition-opacity duration-300"
+            className="w-fit mx-auto mt-auto sticky bottom-5 bg-background shadow-xl border-4 border-black-500 bg-opacity-90 flex justify-center items-center gap-3 p-4 rounded-3xl transition-opacity duration-300"
             style={{ opacity: scrollOpacity }}
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
           >
             <Button
               variant="default"
-              className={`px-4 py-2 rounded-3xl ${
+              className={`px-4 rounded-3xl ${
                 currentPage === 1
                   ? "bg-gray-300 hover:bg-gray-400"
                   : "bg-black hover:bg-gray-900"
@@ -167,7 +165,7 @@ const FoodList = () => {
               <Button
                 variant="default"
                 key={index + 1}
-                className={`px-4 py-2 rounded-3xl ${
+                className={`p-5 rounded-full ${
                   currentPage === index + 1
                     ? "bg-black text-white"
                     : "bg-gray-300 hover:bg-gray-400"
@@ -180,7 +178,7 @@ const FoodList = () => {
 
             <Button
               variant="default"
-              className={`px-4 py-2 rounded-3xl ${
+              className={`px-4 rounded-3xl ${
                 currentPage === totalPages
                   ? "bg-gray-300 hover:bg-gray-400"
                   : "bg-black hover:bg-gray-900"

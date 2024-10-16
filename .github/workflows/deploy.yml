@@ -19,7 +19,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
+          node-version: "18"
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -28,6 +28,9 @@ jobs:
       # Step 4: Build the Vite app
       - name: Build the project
         run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       # Step 5: Deploy to Netlify using the CLI
       - name: Deploy to Netlify

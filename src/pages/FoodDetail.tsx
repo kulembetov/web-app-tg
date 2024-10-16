@@ -20,7 +20,7 @@ const FoodDetail = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(loadMealById(id));
+      dispatch(loadMealById(Number(id)));
     }
 
     return () => {
@@ -50,17 +50,18 @@ const FoodDetail = () => {
 
   return (
     <div className="flex flex-col justify-center items-center gap-5 min-h-screen mx-auto my-10">
-      <img
-        src={food.strMealThumb}
-        alt={food.strMeal}
-        className="w-full max-w-lg rounded-3xl object-cover"
-      />
+      {loading ? (
+        <Loader />
+      ) : (
+        <img
+          src={food.image_url}
+          alt={food.name}
+          className="w-full max-w-lg rounded-3xl object-cover"
+        />
+      )}
+      <h1 className="text-3xl font-bold text-center my-5">{food.name}</h1>
 
-      <h1 className="text-3xl font-bold text-center my-5">{food.strMeal}</h1>
-
-      <p className="text-lg max-w-3xl text-center px-4">
-        {food.strInstructions}
-      </p>
+      <p className="text-lg max-w-3xl text-center px-4">{food.description}</p>
 
       <Button
         variant="default"
