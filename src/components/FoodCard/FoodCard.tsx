@@ -44,19 +44,33 @@ const FoodCard: React.FC<FoodCardProps> = ({
     <Card
       onClick={handleSelect}
       className={clsx(
-        "flex flex-col h-full justify-between cursor-pointer",
-        selected ? "border-4 border-black" : "border-4 border-black-500"
+        "flex flex-col h-full justify-between cursor-pointer w-full",
+        selected ? "border-4 border-black" : "border-4 border-black-500",
+        "w-[350px] md:w-[400px] lg:w-[400px] sm:p-2",
+        "p-4"
       )}
       draggable
       onDragStart={() => onDragStart(id)}
       onDragOver={(e) => e.preventDefault()}
       onDrop={() => onDrop(id)}
     >
-      <CardHeader onClick={handleClick} className="font-bold">
+      <CardHeader
+        onClick={handleClick}
+        className={clsx("font-bold", "text-sm", "md:text-lg")}
+      >
         <Link to={`/food/${id}`}>{name}</Link>
       </CardHeader>
-      <CardContent onClick={handleClick}>{description}</CardContent>
-      <CardFooter className="font-bold mt-auto">{price}</CardFooter>
+      <CardContent
+        onClick={handleClick}
+        className={clsx("text-sm", "md:text-lg")}
+      >
+        {description}
+      </CardContent>
+      <CardFooter
+        className={clsx("font-bold mt-auto", "text-sm", "md:text-lg")}
+      >
+        {price}
+      </CardFooter>
     </Card>
   );
 };

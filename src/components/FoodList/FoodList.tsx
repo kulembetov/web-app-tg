@@ -96,7 +96,7 @@ const FoodList = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto flex flex-col h-screen">
+    <div className="max-w-3xl md:lg:max-w-7xl lg:max-w-full mx-auto flex flex-col items-center h-screen">
       {loading ? (
         <div className="flex justify-center items-center">
           <Loader />
@@ -122,7 +122,7 @@ const FoodList = () => {
             </Button>
           </div>
 
-          <div className="grid lg:grid-cols-3 sm:grid-cols-2 md:grid-cols-2 gap-5 sm:m-20 md:m-20 lg:my-20 lg:mx-0">
+          <div className="grid lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 gap-5 lg:my-20 md:m-20 sm:m-20">
             {error ? (
               <div className="text-center text-red-600">{error}</div>
             ) : (
@@ -150,7 +150,7 @@ const FoodList = () => {
           >
             <Button
               variant="default"
-              className={`px-4 rounded-3xl ${
+              className={`p-4 sm:p-4 rounded-3xl text-xs lg:text-base ${
                 currentPage === 1
                   ? "bg-gray-300 hover:bg-gray-400"
                   : "bg-black hover:bg-gray-900"
@@ -165,7 +165,7 @@ const FoodList = () => {
               <Button
                 variant="default"
                 key={index + 1}
-                className={`p-5 rounded-full ${
+                className={`p-4 lg:p-4 rounded-full text-xs lg:text-base ${
                   currentPage === index + 1
                     ? "bg-black text-white"
                     : "bg-gray-300 hover:bg-gray-400"
@@ -178,7 +178,7 @@ const FoodList = () => {
 
             <Button
               variant="default"
-              className={`px-4 rounded-3xl ${
+              className={`p-4 lg:p-4 rounded-3xl text-xs sm:text-base ${
                 currentPage === totalPages
                   ? "bg-gray-300 hover:bg-gray-400"
                   : "bg-black hover:bg-gray-900"
@@ -189,6 +189,7 @@ const FoodList = () => {
               Next
             </Button>
           </div>
+
         </>
       )}
     </div>
